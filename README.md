@@ -130,3 +130,56 @@ urlpatterns = [
     path('NutritionBot/', include('NutritionBot.urls')) #包含應用程式的網址
 ]
 ```
+
+## Ngrok
+
+為了要讓網址能夠 Public 且具有 https，Line Channel 才有辦法連結，使用一個強大的工具 Ngrok。
+
+簡單來說，就是能夠將你本機的IP埠號，對應到一個隨機產生的HTTPS網址，並且這個HTTPS網址是對外公開的(Public)的，這時候外部使用者只要透過這個HTTPS網址，就能夠存取本機所運行的服務。
+
+[Ngrok 官網](https://ngrok.com/)
+
+依據作業系統進行下載即可。
+
+需要注意的是，下方會有專屬於你的 Token。如圖
+
+![image](https://user-images.githubusercontent.com/85750836/129735792-12f9cb22-8731-4394-9fcd-112dbb5a5aaa.png)
+
+將下載後的檔案解壓縮（壓縮檔裡為一個執行檔），直接執行以後需要輸入以下指令進行驗證
+
+```
+$ ngrok authtoken <YOUR TOKEN>
+```
+
+接著，就可以透過Ngrok，將本機的埠號對外公開。
+
+以本文為例，Django在本機運行的埠號為8000，所以輸入以下的指令：
+```
+$ ngrok http 8000
+```
+
+執行結果如下
+
+![image](https://user-images.githubusercontent.com/85750836/129736937-9a5b6810-cf52-441c-be96-e05b47d7acf6.png)
+
+我們把產生出來的一個 https 網址填入 [Line Developers](https://developers.line.biz/zh-hant/) 的 Messageing API > Webhook settings > Webhook URL，不過還要再後面接上 Line Bot APP 的網址，如圖：
+
+![image](https://user-images.githubusercontent.com/85750836/129738652-d6cd1b8c-7252-4249-ae83-58847a822d6b.png)
+
+然後也要填入 mylinebot/settings.py 裡
+
+```python
+ALLOWED_HOSTS = [
+    '428b1f34284f.ngrok.io'    #允許的網域名稱
+]
+```
+
+此時 Line Channel 就能夠與 Line Bot APP 互相連結
+
+## 執行
+
+最後，利用以下指令就可以執行 Line Bot APP
+
+```
+$ python manage.py runserver
+```
