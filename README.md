@@ -162,6 +162,8 @@ $ ngrok http 8000
 
 ![image](https://user-images.githubusercontent.com/85750836/129736937-9a5b6810-cf52-441c-be96-e05b47d7acf6.png)
 
+（每次重新連接後的網址都不同，因為是隨機產生的一個對外公開的 https 網址，所以每一次重新連接，以下的東西都要重新更改一次）
+
 我們把產生出來的一個 https 網址填入 [Line Developers](https://developers.line.biz/zh-hant/) 的 Messageing API > Webhook settings > Webhook URL，不過還要再後面接上 Line Bot APP 的網址，如圖：
 
 ![image](https://user-images.githubusercontent.com/85750836/129738652-d6cd1b8c-7252-4249-ae83-58847a822d6b.png)
