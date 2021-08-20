@@ -11,27 +11,31 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+domain = 'c22be1a27592.ngrok.io'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-import NutritionBot.apps
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
+
+
 LINE_CHANNEL_ACCESS_TOKEN = 'mxJdY40QwXP/pQR6Vilr8J7fBdsLD9E6whHFlUL0Z+XC5BtQtRI1ZKBg/PTpnTYSINtaFnMEcwu7ZKnHjrFnI4mcRnHMr3bwpq9xuBruXPnQRktRkwtTZESrRieAmVW0Rn/NxuQfWNTaKwhxSfgXqgdB04t89/1O/w1cDnyilFU='
 
 LINE_CHANNEL_SECRET = '5494c7edb0e7ea935fb351eca223f3ab'
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-28xpbz_%3+fi)$^!f)i)625e*)v#)(=i0#_f*27(x5#^pawp5n'
+SECRET_KEY = 'django-insecure-!^w2tap9j_71v02@w7vmx@f5a$on*nc*2qw3-i4aqat7+gbne('
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    domain # 允許的網域名稱
+    # '*'
+]
 
 
 # Application definition
@@ -131,3 +135,4 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
