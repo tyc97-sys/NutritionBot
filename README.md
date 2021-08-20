@@ -185,3 +185,18 @@ ALLOWED_HOSTS = [
 ```
 $ python manage.py runserver
 ```
+
+## 如果更新過 NutritionBot > models.py
+
+請先執行
+
+```
+$ python manage.py makemigrations NutritionBot
+$ python manage.py migrate
+```
+
+更新完 models.py 以後才可以執行
+
+```
+$ python manage.py runserver
+```
