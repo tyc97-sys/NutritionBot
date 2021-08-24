@@ -12,6 +12,8 @@ import json
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 parser = WebhookParser(settings.LINE_CHANNEL_SECRET)
 
+flag_ = []
+
 @csrf_exempt
 def callback(request):
     if request.method == 'POST':
@@ -109,12 +111,35 @@ def callback(request):
                                                     label='No',
                                                     text='No',
                                                 )])))
-                        # elif '營養素' in mtext:
-
+                        elif '營養素' in mtext:
+                            message.append(
+                                TemplateSendMessage(
+                                    alt_text='Buttons template',
+                                    template=ButtonsTemplate(
+                                        title='終極目標',
+                                        text='現在的目標是？',
+                                        actions=[
+                                            PostbackTemplateAction(
+                                                label='減脂／減重',
+                                                text='減脂 減重',
+                                                data='E&減脂'
+                                            ),
+                                            PostbackTemplateAction(
+                                                label='保持身材',
+                                                text='保持身材',
+                                                data='F&保持身材'
+                                            ),
+                                            PostbackTemplateAction(
+                                                label='增肌／增重',
+                                                text='增肌 增重',
+                                                data='G&增肌'
+                                            )])))
 
                         elif len(mtext.split()) == 4:
                             info = mtext.split()
                             print(info)
+
+                            text_confirm = "身高：{}\n體重：{}\n年齡：{}\n性別：{}\n再次確認，需要更改嗎？".format(name, info[0], info[1], info[2], info[3])
 
                             if '女' in info:
                                 info[3] = 1
@@ -129,9 +154,23 @@ def callback(request):
 
                             text_ = '已更新完畢！'
                             message.append(TextSendMessage(text_))
+                            message.append(
+                                TemplateSendMessage(
+                                    alt_text='Confirm template',
+                                    template=ConfirmTemplate(
+                                        text=text_confirm,
+                                        actions=[
+                                            MessageTemplateAction(
+                                                label='Yes',
+                                                text='Yes',
+                                            ),
+                                            MessageTemplateAction(
+                                                label='No',
+                                                text='No',
+                                            )])))
 
                         elif 'Yes' in mtext:
-                            text_ = '那麼請重新輸入。'
+                            text_ = '那麼請重新輸入\n身高(cm)／體重(kg)／年齡／性別 (用空格區別)'
                             message.append(TextSendMessage(text_))
 
                         elif 'No' in mtext:
