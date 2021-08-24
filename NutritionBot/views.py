@@ -49,7 +49,7 @@ def callback(request):
                             height = user.height  # 讀取先前紀錄過之身高
                             weight = user.weight  # 讀取先前紀錄過之體重
                             age = user.age  # 讀取先前紀錄過之年齡
-                            sex = user.sex # 讀取先前紀錄過的性別
+                            sex = user.sex  # 讀取先前紀錄過的性別
 
                         if 'hi' in mtext.lower() or '嗨' in mtext or 'hello' in mtext.lower():
                             text_ = '{} 您好\n今天需要甚麼幫助？'.format(name)
@@ -80,11 +80,7 @@ def callback(request):
                                                 label='想吃飯',
                                                 text='吃吃吃',
                                                 data='D&訂餐'
-                                            )
-                                        ]
-                                    )
-                                )
-                            )
+                                            )])))
 
                         elif '身體資訊' in mtext:
                             if height == 0 or weight == 0 or age == 0:
@@ -92,15 +88,18 @@ def callback(request):
                                 message.append(TextSendMessage(text_))
                                 text_ = '"請先輸入你的身高(cm)／體重(kg)／年齡／性別 (用空格區別)'
                                 message.append(TextSendMessage(text_))
-
                             else:
-                                text_ = "{} 您好\n上次輸入的身高：{} 體重：{} 年齡：{} 性別：{}\n是否需要重新輸入".format(name, height, weight, age, sex)
+                                if sex == 1:
+                                    sex_ = '女'
+                                else:
+                                    sex_ = '男'
+                                text_ = "{} 您好\n上次輸入：\n身高：{}\n體重：{}\n年齡：{}\n性別：{}\n是否需要更改".format(name, height, weight, age, sex_)
                                 message.append(TextSendMessage(text_))
                                 message.append(
                                     TemplateSendMessage(
                                         alt_text='Confirm template',
                                         template=ConfirmTemplate(
-                                            text='確認嗎',
+                                            text='要更改嗎',
                                             actions=[
                                                 MessageTemplateAction(
                                                     label='Yes',
@@ -109,54 +108,48 @@ def callback(request):
                                                 MessageTemplateAction(
                                                     label='No',
                                                     text='No',
-                                                ),
-                                            ]
-                                        )
-                                    )
-                                )
+                                                )])))
+                        # elif '營養素' in mtext:
 
+
+                        elif len(mtext.split()) == 4:
+                            info = mtext.split()
+                            print(info)
+
+                            if '女' in info:
+                                info[3] = 1
+                            else:
+                                info[3] = 0
+                            print(info)
+
+                            User_Info.objects.filter(uid=uid).update(height=info[0])
+                            User_Info.objects.filter(uid=uid).update(weight=info[1])
+                            User_Info.objects.filter(uid=uid).update(age=info[2])
+                            User_Info.objects.filter(uid=uid).update(sex=info[3])
+
+                            text_ = '已更新完畢！'
+                            message.append(TextSendMessage(text_))
+
+                        elif 'Yes' in mtext:
+                            text_ = '那麼請重新輸入。'
+                            message.append(TextSendMessage(text_))
+
+                        elif 'No' in mtext:
+                            if sex == 0:
+                                BMR = 13.7 * weight + 5 * height - 6.8 * age + 66 # 男生 = (13.7×體重(公斤))+(5.0×身高(公分))-(6.8×年齡)+66
+                            else:
+                                BMR = 9.6 * weight + 1.8 * height - 4.7 * age + 655  # 女生 = (9.6×體重(公斤))+(1.8×身高(公分))-(4.7×年齡)+655
+
+                            text_ = '您的基礎代謝（BMR）為：{} kcal'.format(int(BMR))
+                            message.append(TextSendMessage(text_))
+                            print("BMR", int(BMR))
+
+                            water = float(weight * 30 / 1000)
+                            text_ = '每天需喝水：{:.1f} L'.format(water)
+                            message.append(TextSendMessage(text_))
+                            print("{:.1f}".format(water))
 
                     line_bot_api.reply_message(event.reply_token, message)
-                        # if len(mtext.split()) == 3:
-                        #     data_ = list(map(float, mtext.split()))
-                        #     User_Info.objects.filter(uid=uid).update(height=data_[0])
-                        #     User_Info.objects.filter(uid=uid).update(weight=data_[1])
-                        #     User_Info.objects.filter(uid=uid).update(age=int(data_[2]))
-                        #
-                        #     text_ = "{} 您好\n您的身高：{} 體重：{} 年齡：{}。".format(name, data_[0], data_[1], int(data_[2]))
-                        #
-                        #     message.append(TextSendMessage(text_))
-                        #
-                        # elif height == 0 or weight == 0 or age == 0:
-                        #     text_ = "請輸入你的身高(cm)／體重(kg)／年齡 (請用空格區別)"
-                        #     message.append(TextSendMessage(text_))
-                        #     print(mtext)
-                        #
-                        # elif 'Yes' in mtext:
-                        #     User_Info.objects.filter(uid=uid).update(height=0)
-                        #     User_Info.objects.filter(uid=uid).update(weight=0)
-                        #     User_Info.objects.filter(uid=uid).update(age=0)
-                        #     # text_ = "重整"
-                        #     # message.append(TextSendMessage(text_))
-                        #
-                        # elif height != 0 and weight != 0 and age != 0:
-                        #     text_ = "{} 您好\n上次輸入的身高：{} 體重：{} 年齡：{}\n是否需要重新輸入".format(name, height, weight, age)
-                        #     message.append(TemplateSendMessage(
-                        #         alt_text='Confirm template',
-                        #         template=ConfirmTemplate(
-                        #             text=text_,
-                        #             actions=[
-                        #                 MessageTemplateAction(
-                        #                     label='Yes',
-                        #                     text='Yes',
-                        #                 ),
-                        #                 MessageTemplateAction(
-                        #                     label='No',
-                        #                     text='No',
-                        #                 ),
-                        #             ])))
-
-
 
         return HttpResponse()
     else:
