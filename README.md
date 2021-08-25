@@ -61,7 +61,7 @@ INSTALLED_APPS = [
 ```
 也就是在 NutritionBot/apps.py 裡的 `class NutritionbotConfig`
 
-## 開發 Line Bot 應用程式
+## 開發 Line Bot 應用程式（基本）
 
 以上都設定完成後，開啟 NutritionBot/views.py，這邊就是轉寫 Line Bot 接收訊息後要執行的運算邏輯。
 
@@ -186,7 +186,7 @@ ALLOWED_HOSTS = [
 $ python manage.py runserver
 ```
 
-## 如果更新過 NutritionBot > models.py
+### 如果更新過 NutritionBot > models.py
 
 請先執行
 
@@ -200,3 +200,5 @@ $ python manage.py migrate
 ```
 $ python manage.py runserver
 ```
+
+## Rich Menu 圖文主選單
