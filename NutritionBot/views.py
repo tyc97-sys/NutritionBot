@@ -7,12 +7,13 @@ from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import *
 from .models import *
+# from .rich_menu import *
 import json
 # 取得settings.py中的LINE Bot憑證來進行Messaging API的驗證
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 parser = WebhookParser(settings.LINE_CHANNEL_SECRET)
 
-flag_ = []
+
 
 @csrf_exempt
 def callback(request):
@@ -25,6 +26,10 @@ def callback(request):
             return HttpResponseForbidden()
         except LineBotApiError:
             return HttpResponseBadRequest()
+
+        # rich_menu_id = create_menu()
+        # set_menu_image(r"F:\AI\Line_Chatbot\NutritionBot\NutritionBot\rich-menu.png", rich_menu_id)
+        # print(rich_menu_id)
 
         # 當有事件傳入
         for event in events:
@@ -52,6 +57,8 @@ def callback(request):
                             weight = user.weight  # 讀取先前紀錄過之體重
                             age = user.age  # 讀取先前紀錄過之年齡
                             sex = user.sex  # 讀取先前紀錄過的性別
+                            BMR = user.bmr
+                            water = user.water
 
                         if 'hi' in mtext.lower() or '嗨' in mtext or 'hello' in mtext.lower():
                             text_ = '{} 您好\n今天需要甚麼幫助？'.format(name)
@@ -134,12 +141,45 @@ def callback(request):
                                                 text='增肌 增重',
                                                 data='G&增肌'
                                             )])))
+                        # elif '減脂' in mtext or '保持身材' in mtext or '增肌' in mtext:
+                        #     message.append(
+                        #         TemplateSendMessage(
+                        #             alt_text='Buttons template',
+                        #             template=ButtonsTemplate(
+                        #                 title='活動程度',
+                        #                 text='平常的活動程度？',
+                        #                 actions=[
+                        #                     PostbackTemplateAction(
+                        #                         label='無活動：久坐',
+                        #                         text='無活動',
+                        #                         data='H&無活動'
+                        #                     ),
+                        #                     PostbackTemplateAction(
+                        #                         label='輕量活動：每周運動1-3天',
+                        #                         text='輕量活動',
+                        #                         data='I&輕量活動'
+                        #                     ),
+                        #                     PostbackTemplateAction(
+                        #                         label='中度活動量：站走稍多、每周運動3-5天',
+                        #                         text='中度活動量',
+                        #                         data='J&中度活動量'
+                        #                     ),
+                        #                     PostbackTemplateAction(
+                        #                         label='高度活動量：站走為主、每周運動6-7天',
+                        #                         text='高度活動量',
+                        #                         data='K&高度活動量'
+                        #                     ),
+                        #                     PostbackTemplateAction(
+                        #                         label='非常高度活動量：無時無刻都在運動，幾乎整天都做高強度的運動',
+                        #                         text='非常高度活動量',
+                        #                         data='L&非常高度活動量'
+                        #                     )])))
 
                         elif len(mtext.split()) == 4:
                             info = mtext.split()
                             print(info)
 
-                            text_confirm = "身高：{}\n體重：{}\n年齡：{}\n性別：{}\n再次確認，需要更改嗎？".format(name, info[0], info[1], info[2], info[3])
+                            text_confirm = "身高：{}\n體重：{}\n年齡：{}\n性別：{}\n再次確認，需要更改嗎？".format(info[0], info[1], info[2], info[3])
 
                             if '女' in info:
                                 info[3] = 1
@@ -182,13 +222,77 @@ def callback(request):
                             text_ = '您的基礎代謝（BMR）為：{} kcal'.format(int(BMR))
                             message.append(TextSendMessage(text_))
                             print("BMR", int(BMR))
+                            User_Info.objects.filter(uid=uid).update(bmr=BMR)
 
                             water = float(weight * 30 / 1000)
-                            text_ = '每天需喝水：{:.1f} L'.format(water)
+                            text_ = '每天需喝水：{:.1f}L'.format(water)
                             message.append(TextSendMessage(text_))
                             print("{:.1f}".format(water))
+                            User_Info.objects.filter(uid=uid).update(water=water)
 
                     line_bot_api.reply_message(event.reply_token, message)
+
+            elif isinstance(event, PostbackEvent):
+                ptext = event.postback.data
+                pmessage = []
+
+                if ptext[0:1] =='E' or ptext[0:1] =='F' or ptext[0:1] =='G':
+                    pmessage.append(
+                        TemplateSendMessage(
+                            alt_text='Buttons template',
+                            template=ButtonsTemplate(
+                                title='活動程度',
+                                text='平常的活動程度？',
+                                actions=[
+                                    PostbackTemplateAction(
+                                        label='無活動：久坐',
+                                        text='無活動',
+                                        data='H&無活動'
+                                    ),
+                                    PostbackTemplateAction(
+                                        label='輕量活動：每周運動1-3天',
+                                        text='輕量活動',
+                                        data='I&輕量活動'
+                                    ),
+                                    PostbackTemplateAction(
+                                        label='中度活動量：站走稍多、每周運動3-5天',
+                                        text='中度活動量',
+                                        data='J&中度活動量'
+                                    ),
+                                    PostbackTemplateAction(
+                                        label='高度活動量：站走為主、每周運動6-7天',
+                                        text='高度活動量',
+                                        data='K&高度活動量'
+                                    ),
+                                    PostbackTemplateAction(
+                                        label='非常高度活動量：無時無刻都在運動，幾乎整天都做高強度的運動',
+                                        text='非常高度活動量',
+                                        data='L&非常高度活動量'
+                                    )])))
+
+                elif ptext[0:1] == 'H':
+                    TDEE = 1.2 * BMR
+                    pmessage_ = '平日作息：{}，每日的 TDEE：{}'.format(ptext[2:], int(TDEE))
+                    pmessage.append(TextSendMessage(pmessage_))
+                elif ptext[0:1] == 'I':
+                    TDEE = 1.375 * BMR
+                    pmessage_ = '平日作息：{}，每日的 TDEE：{}'.format(ptext[2:], int(TDEE))
+                    pmessage.append(TextSendMessage(pmessage_))
+                elif ptext[0:1] == 'J':
+                    TDEE = 1.55 * BMR
+                    pmessage_ = '平日作息：{}，每日的 TDEE：{}'.format(ptext[2:], int(TDEE))
+                    pmessage.append(TextSendMessage(pmessage_))
+                elif ptext[0:1] == 'K':
+                    TDEE = 1.725 * BMR
+                    pmessage_ = '平日作息：{}，每日的 TDEE：{}'.format(ptext[2:], int(TDEE))
+                    pmessage.append(TextSendMessage(pmessage_))
+                elif ptext[0:1] == 'L':
+                    TDEE = 1.9 * BMR
+                    pmessage_ = '平日作息：{}，每日的 TDEE：{}'.format(ptext[2:], int(TDEE))
+                    pmessage.append(TextSendMessage(pmessage_))
+
+
+                line_bot_api.reply_message(event.reply_token, pmessage)
 
         return HttpResponse()
     else:

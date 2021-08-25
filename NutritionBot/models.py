@@ -15,6 +15,8 @@ class User_Info(models.Model):
     weight = models.FloatField(max_length=255, default = 0.0, blank=True, null=False)
     age = models.IntegerField(default = 0, blank=False, null=False)
     sex = models.IntegerField(default = 0, blank=False, null=False) # male: 0, female: 1
+    bmr = models.FloatField(max_length=255, default=0.0, blank=True, null=False)
+    water = models.FloatField(max_length=255, default=0.0, blank=True, null=False)
 
     def __str__(self):
         return self.uid
