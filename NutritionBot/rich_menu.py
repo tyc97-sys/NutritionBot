@@ -3,37 +3,29 @@ import json
 
 token = 'mxJdY40QwXP/pQR6Vilr8J7fBdsLD9E6whHFlUL0Z+XC5BtQtRI1ZKBg/PTpnTYSINtaFnMEcwu7ZKnHjrFnI4mcRnHMr3bwpq9xuBruXPnQRktRkwtTZESrRieAmVW0Rn/NxuQfWNTaKwhxSfgXqgdB04t89/1O/w1cDnyilFU='
 
-headers = {"Authorization":"Bearer mxJdY40QwXP/pQR6Vilr8J7fBdsLD9E6whHFlUL0Z+XC5BtQtRI1ZKBg/PTpnTYSINtaFnMEcwu7ZKnHjrFnI4mcRnHMr3bwpq9xuBruXPnQRktRkwtTZESrRieAmVW0Rn/NxuQfWNTaKwhxSfgXqgdB04t89/1O/w1cDnyilFU=", "Content-Type":"application/json"}
+headers = {"Authorization":"Bearer mxJdY40QwXP/pQR6Vilr8J7fBdsLD9E6whHFlUL0Z+XC5BtQtRI1ZKBg/PTpnTYSINtaFnMEcwu7ZKnHjrFnI4mcRnHMr3bwpq9xuBruXPnQRktRkwtTZESrRieAmVW0Rn/NxuQfWNTaKwhxSfgXqgdB04t89/1O/w1cDnyilFU=" , "Content-Type":"application/json"}
 
 body = {
-    "size": {"width": 2500, "height": 843},
-    "selected": "true",
-    "name": "Controller",
-    "chatBarText": "Controller",
+    "size": {"width": 2500, "height": 1686},
+    "selected": "false",
+    "name": "Menu",
+    "chatBarText": "更多資訊",
     "areas":[
         {
-          "bounds": {"x": 551, "y": 325, "width": 321, "height": 321},
-          "action": {"type": "message", "text": "up"}
+          "bounds": {"x": 333, "y": 56, "width": 841, "height": 711},
+          "action": {"type": "message", "text": "身體資訊"}
         },
         {
-          "bounds": {"x": 876, "y": 651, "width": 321, "height": 321},
-          "action": {"type": "message", "text": "right"}
+          "bounds": {"x": 1316, "y": 56, "width": 841, "height": 711},
+          "action": {"type": "message", "text": "營養素"}
         },
         {
-          "bounds": {"x": 551, "y": 972, "width": 321, "height": 321},
-          "action": {"type": "message", "text": "down"}
+          "bounds": {"x": 333, "y": 916, "width": 841, "height": 711},
+          "action": {"type": "message", "text": "運動 gogo"}
         },
         {
-          "bounds": {"x": 225, "y": 651, "width": 321, "height": 321},
-          "action": {"type": "message", "text": "left"}
-        },
-        {
-          "bounds": {"x": 1433, "y": 657, "width": 367, "height": 367},
-          "action": {"type": "message", "text": "btn b"}
-        },
-        {
-          "bounds": {"x": 1907, "y": 657, "width": 367, "height": 367},
-          "action": {"type": "message", "text": "btn a"}
+          "bounds": {"x": 1316, "y": 916, "width": 841, "height": 711},
+          "action": {"type": "message", "text": "身體資訊"}
         }
     ]
   }
@@ -45,24 +37,24 @@ print(req.text)
 # print(type(req.text))
 
 
-
 from linebot import (
     LineBotApi, WebhookHandler
 )
-
+# # =======================================================
 line_bot_api = LineBotApi(token)
-rich_menu_id = 'richmenu-da7b4e4631f5358c6d32d86f371ac67f'
-#
-# path = r'F:\AI\Line_Chatbot\NutritionBot\NutritionBot\rich-menu.png'
+rich_menu_id = 'richmenu-a7695299f5a307505972770309a72968'
+# # =======================================================
+# path = r'F:\AI\Line_Chatbot\NutritionBot\NutritionBot\menu.jpg'
 #
 # with open(path, 'rb') as f:
 #     line_bot_api.set_rich_menu_image(rich_menu_id, "image/png", f)
-
+# # =======================================================
 req = requests.request('POST', 'https://api.line.me/v2/bot/user/all/richmenu/'+rich_menu_id,
                        headers=headers)
 print(req.text)
 
 rich_menu_list = line_bot_api.get_rich_menu_list()
 
-for rich_menu in rich_menu_list:
-    print(rich_menu.rich_menu_id)
+
+# # =======================================================
+# line_bot_api.delete_rich_menu(rich_menu_id)
