@@ -12,19 +12,19 @@ body = {
     "chatBarText": "更多資訊",
     "areas":[
         {
-          "bounds": {"x": 333, "y": 56, "width": 841, "height": 711},
+          "bounds": {"x": 113, "y": 45, "width": 1036, "height": 762},
           "action": {"type": "message", "text": "身體資訊"}
         },
         {
-          "bounds": {"x": 1316, "y": 56, "width": 841, "height": 711},
+          "bounds": {"x": 1321, "y": 45, "width": 1036, "height": 762},
           "action": {"type": "message", "text": "營養素"}
         },
         {
-          "bounds": {"x": 333, "y": 916, "width": 841, "height": 711},
+          "bounds": {"x": 113, "y": 910, "width": 1036, "height": 762},
           "action": {"type": "message", "text": "運動 gogo"}
         },
         {
-          "bounds": {"x": 1316, "y": 916, "width": 841, "height": 711},
+          "bounds": {"x": 1321, "y": 910, "width": 1036, "height": 762},
           "action": {"type": "message", "text": "身體資訊"}
         }
     ]
@@ -34,7 +34,6 @@ req = requests.request('POST', 'https://api.line.me/v2/bot/richmenu',
                        headers=headers,data=json.dumps(body).encode('utf-8'))
 
 print(req.text)
-# print(type(req.text))
 
 
 from linebot import (
@@ -42,7 +41,7 @@ from linebot import (
 )
 # # =======================================================
 line_bot_api = LineBotApi(token)
-rich_menu_id = 'richmenu-a7695299f5a307505972770309a72968'
+rich_menu_id = 'richmenu-7121f9246d048f658b24ca79cd5e1dc9'
 # # =======================================================
 # path = r'F:\AI\Line_Chatbot\NutritionBot\NutritionBot\menu.jpg'
 #
