@@ -9,12 +9,13 @@ from linebot.models import *
 from .models import *
 # from .rich_menu import *
 import json
+
 # 取得settings.py中的LINE Bot憑證來進行Messaging API的驗證
 
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 parser = WebhookParser(settings.LINE_CHANNEL_SECRET)
 
-
+text_history = []
 
 @csrf_exempt
 def callback(request):
@@ -31,6 +32,8 @@ def callback(request):
         # rich_menu_id = create_menu()
         # set_menu_image(r"F:\AI\Line_Chatbot\NutritionBot\NutritionBot\rich-menu.png", rich_menu_id)
         # print(rich_menu_id)
+
+
 
         # 當有事件傳入
         for event in events:
@@ -103,7 +106,8 @@ def callback(request):
                                     sex_ = '女'
                                 else:
                                     sex_ = '男'
-                                text_ = "{} 您好\n上次輸入：\n身高：{}\n體重：{}\n年齡：{}\n性別：{}\n是否需要更改".format(name, height, weight, age, sex_)
+                                text_ = "{} 您好\n上次輸入：\n身高：{}\n體重：{}\n年齡：{}\n性別：{}\n是否需要更改".format(name, height, weight,
+                                                                                                  age, sex_)
                                 message.append(TextSendMessage(text_))
                                 message.append(
                                     TemplateSendMessage(
@@ -119,68 +123,13 @@ def callback(request):
                                                     label='No',
                                                     text='No',
                                                 )])))
-                        elif '營養素' in mtext:
-                            message.append(
-                                TemplateSendMessage(
-                                    alt_text='Buttons template',
-                                    template=ButtonsTemplate(
-                                        title='終極目標',
-                                        text='現在的目標是？',
-                                        actions=[
-                                            PostbackTemplateAction(
-                                                label='減脂／減重',
-                                                text='減脂 減重',
-                                                data='E&減脂'
-                                            ),
-                                            PostbackTemplateAction(
-                                                label='保持身材',
-                                                text='保持身材',
-                                                data='F&保持身材'
-                                            ),
-                                            PostbackTemplateAction(
-                                                label='增肌／增重',
-                                                text='增肌 增重',
-                                                data='G&增肌'
-                                            )])))
-                        # elif '減脂' in mtext or '保持身材' in mtext or '增肌' in mtext:
-                        #     message.append(
-                        #         TemplateSendMessage(
-                        #             alt_text='Buttons template',
-                        #             template=ButtonsTemplate(
-                        #                 title='活動程度',
-                        #                 text='平常的活動程度？',
-                        #                 actions=[
-                        #                     PostbackTemplateAction(
-                        #                         label='無活動：久坐',
-                        #                         text='無活動',
-                        #                         data='H&無活動'
-                        #                     ),
-                        #                     PostbackTemplateAction(
-                        #                         label='輕量活動：每周運動1-3天',
-                        #                         text='輕量活動',
-                        #                         data='I&輕量活動'
-                        #                     ),
-                        #                     PostbackTemplateAction(
-                        #                         label='中度活動量：站走稍多、每周運動3-5天',
-                        #                         text='中度活動量',
-                        #                         data='J&中度活動量'
-                        #                     ),
-                        #                     PostbackTemplateAction(
-                        #                         label='高度活動量：站走為主、每周運動6-7天',
-                        #                         text='高度活動量',
-                        #                         data='K&高度活動量'
-                        #                     ),
-                        #                     PostbackTemplateAction(
-                        #                         label='非常高度活動量：無時無刻都在運動，幾乎整天都做高強度的運動',
-                        #                         text='非常高度活動量',
-                        #                         data='L&非常高度活動量'
-                        #                     )])))
 
                         elif len(mtext.split()) == 4:
                             info = mtext.split()
                             print(info)
 
-                            text_confirm = "身高：{}\n體重：{}\n年齡：{}\n性別：{}\n再次確認，需要更改嗎？".format(info[0], info[1], info[2], info[3])
+                            text_confirm = "身高：{}\n體重：{}\n年齡：{}\n性別：{}\n再次確認，需要更改嗎？".format(info[0], info[1], info[2],
+                                                                                            info[3])
 
                             if '女' in info:
                                 info[3] = 1
@@ -216,7 +165,7 @@ def callback(request):
 
                         elif 'No' in mtext:
                             if sex == 0:
-                                BMR = 13.7 * weight + 5 * height - 6.8 * age + 66 # 男生 = (13.7×體重(公斤))+(5.0×身高(公分))-(6.8×年齡)+66
+                                BMR = 13.7 * weight + 5 * height - 6.8 * age + 66  # 男生 = (13.7×體重(公斤))+(5.0×身高(公分))-(6.8×年齡)+66
                             else:
                                 BMR = 9.6 * weight + 1.8 * height - 4.7 * age + 655  # 女生 = (9.6×體重(公斤))+(1.8×身高(公分))-(4.7×年齡)+655
 
@@ -231,69 +180,195 @@ def callback(request):
                             print("{:.1f}".format(water))
                             User_Info.objects.filter(uid=uid).update(water=water)
 
+                        elif '營養素' in mtext:
+                            message.append(
+                                TemplateSendMessage(
+                                    alt_text='Buttons template',
+                                    template=ButtonsTemplate(
+                                        title='終極目標',
+                                        text='現在的目標是？',
+                                        actions=[
+                                            MessageTemplateAction(
+                                                label='減脂 / 減重',
+                                                text='減脂 / 減重'
+                                            ),
+                                            MessageTemplateAction(
+                                                label='保持身材',
+                                                text='保持身材'
+                                            ),
+                                            MessageTemplateAction(
+                                                label='增肌 / 增重',
+                                                text='增肌 / 增重'
+                                            )])))
+
+                        elif ('減脂 / 減重' in mtext) or ('保持身材' in mtext) or ('增肌 / 增重' in mtext):
+                            text_history.append(mtext)
+
+                            print('text_history', text_history)
+                            text_ = '活動程度：\n- 無活動：久坐\n- 輕量活動：每周運動1-3天\n- 中度活動量：站走稍多、每周運動3-5天\n- 高度活動量：站走為主、每周運動6-7天'
+                            message.append(TextSendMessage(text_))
+                            message.append(
+                                TemplateSendMessage(
+                                    alt_text='Buttons template',
+                                    template=ButtonsTemplate(
+                                        title='活動程度',
+                                        text='平常活動程度？',
+                                        actions=[
+                                            MessageTemplateAction(
+                                                label='無活動',
+                                                text='無活動'
+                                            ),
+                                            MessageTemplateAction(
+                                                label='輕量活動',
+                                                text='輕量活動'
+                                            ),
+                                            MessageTemplateAction(
+                                                label='中度活動量',
+                                                text='中度活動量'
+                                            ),
+                                            MessageTemplateAction(
+                                                label='高度活動量',
+                                                text='高度活動量'
+                                            )])))
+
+                        elif ('無活動' in mtext) or ('輕量活動' in mtext) or ('中度活動量' in mtext) or ('高度活動量' in mtext):
+                            # text_history.append(mtext)
+                            print('text_history', text_history)
+                            print('mtext', mtext)
+
+                            if '無活動' in mtext:
+                                TDEE = 1.2 * BMR
+                                text_='平日作息：{}\n每日的 TDEE：{} kcal'.format(mtext, int(TDEE))
+                                message.append(TextSendMessage(text_))
+                                if '減脂 / 減重' in text_history:
+                                    TDEE = 0.8 * TDEE
+                                    carb = TDEE * 0.45 / 4
+                                    protein = TDEE * 0.35 / 4
+                                    fat = TDEE * 0.2 / 9
+
+                                    text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
+                                        text_history[0], int(TDEE), carb, protein, fat)
+
+                                elif '保持身材' in text_history:
+                                    TDEE = TDEE
+                                    carb = TDEE * 0.55 / 4
+                                    protein = TDEE * 0.15 / 4
+                                    fat = TDEE * 0.3 / 9
+
+                                    text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
+                                        text_history[0], int(TDEE), carb, protein, fat)
+
+                                elif '增肌 / 增重' in text_history:
+                                    TDEE = TDEE + 400
+                                    carb = TDEE * 0.6 / 4
+                                    protein = TDEE * 0.25 / 4
+                                    fat = TDEE * 0.15 / 9
+
+                                    text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
+                                        text_history[0], int(TDEE), carb, protein, fat)
+
+                                message.append(TextSendMessage(text_))
+                            elif '輕量活動' in mtext:
+                                TDEE = 1.375 * BMR
+                                text_='平日作息：{}\n每日的 TDEE：{} kcal'.format(mtext, int(TDEE))
+                                message.append(TextSendMessage(text_))
+                                if '減脂 / 減重' in text_history:
+                                    TDEE = 0.8 * TDEE
+                                    carb = TDEE * 0.45 / 4
+                                    protein = TDEE * 0.35 / 4
+                                    fat = TDEE * 0.2 / 9
+
+                                    text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
+                                        text_history[0], int(TDEE), carb, protein, fat)
+
+                                elif '保持身材' in text_history:
+                                    TDEE = TDEE
+                                    carb = TDEE * 0.55 / 4
+                                    protein = TDEE * 0.15 / 4
+                                    fat = TDEE * 0.3 / 9
+
+                                    text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
+                                        text_history[0], int(TDEE), carb, protein, fat)
+
+                                elif '增肌 / 增重' in text_history:
+                                    TDEE = TDEE + 400
+                                    carb = TDEE * 0.6 / 4
+                                    protein = TDEE * 0.25 / 4
+                                    fat = TDEE * 0.15 / 9
+
+                                    text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
+                                        text_history[0], int(TDEE), carb, protein, fat)
+
+                                message.append(TextSendMessage(text_))
+                            elif '中度活動量' in mtext:
+                                TDEE = 1.55 * BMR
+                                text_='平日作息：{}\n每日的 TDEE：{} kcal'.format(mtext, int(TDEE))
+                                message.append(TextSendMessage(text_))
+                                if '減脂 / 減重' in text_history:
+                                    TDEE = 0.8 * TDEE
+                                    carb = TDEE * 0.45 / 4
+                                    protein = TDEE * 0.35 / 4
+                                    fat = TDEE * 0.2 / 9
+
+                                    text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
+                                        text_history[0], int(TDEE), carb, protein, fat)
+
+                                elif '保持身材' in text_history:
+                                    TDEE = TDEE
+                                    carb = TDEE * 0.55 / 4
+                                    protein = TDEE * 0.15 / 4
+                                    fat = TDEE * 0.3 / 9
+
+                                    text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
+                                        text_history[0], int(TDEE), carb, protein, fat)
+
+                                elif '增肌 / 增重' in text_history:
+                                    TDEE = TDEE + 400
+                                    carb = TDEE * 0.6 / 4
+                                    protein = TDEE * 0.25 / 4
+                                    fat = TDEE * 0.15 / 9
+
+                                    text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
+                                        text_history[0], int(TDEE), carb, protein, fat)
+
+                                message.append(TextSendMessage(text_))
+                            elif '高度活動量' in mtext:
+                                TDEE = 1.725 * BMR
+                                text_='平日作息：{}\n每日的 TDEE：{} kcal'.format(mtext, int(TDEE))
+                                message.append(TextSendMessage(text_))
+                                if '減脂 / 減重' in text_history:
+                                    TDEE = 0.8 * TDEE
+                                    carb = TDEE * 0.45 / 4
+                                    protein = TDEE * 0.35 / 4
+                                    fat = TDEE * 0.2 / 9
+
+                                    text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
+                                        text_history[0], int(TDEE), carb, protein, fat)
+
+                                elif '保持身材' in text_history:
+                                    TDEE = TDEE
+                                    carb = TDEE * 0.55 / 4
+                                    protein = TDEE * 0.15 / 4
+                                    fat = TDEE * 0.3 / 9
+
+                                    text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
+                                        text_history[0], int(TDEE), carb, protein, fat)
+
+                                elif '增肌 / 增重' in text_history:
+                                    TDEE = TDEE + 400
+                                    carb = TDEE * 0.6 / 4
+                                    protein = TDEE * 0.25 / 4
+                                    fat = TDEE * 0.15 / 9
+
+                                    text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
+                                        text_history[0], int(TDEE), carb, protein, fat)
+
+                                message.append(TextSendMessage(text_))
+                                # 這邊先用文字代替，之後可以改成圖片，圖片最下面顯示"想知道詳細資訊請點擊圖片"之類的文字
+                                text_ = "甚麼是 TDEE？\nTDEE 全名 Total Daily Energy Expenditure\n是總熱量消耗的英文縮寫，指身體一整天所消耗掉的熱量。\n\n當 攝取的卡路里 = TDEE時，體重會維持"
+                                message.append(TextSendMessage(text_))
                     line_bot_api.reply_message(event.reply_token, message)
 
-            elif isinstance(event, PostbackEvent):
-                ptext = event.postback.data
-                pmessage = []
-
-                if ptext[0:1] =='E' or ptext[0:1] =='F' or ptext[0:1] =='G':
-                    pmessage.append(
-                        TemplateSendMessage(
-                            alt_text='Buttons template',
-                            template=ButtonsTemplate(
-                                title='活動程度',
-                                text='平常的活動程度？',
-                                actions=[
-                                    PostbackTemplateAction(
-                                        label='無活動：久坐',
-                                        text='無活動',
-                                        data='H&無活動'
-                                    ),
-                                    PostbackTemplateAction(
-                                        label='輕量活動：每周運動1-3天',
-                                        text='輕量活動',
-                                        data='I&輕量活動'
-                                    ),
-                                    PostbackTemplateAction(
-                                        label='中度活動量：站走稍多、每周運動3-5天',
-                                        text='中度活動量',
-                                        data='J&中度活動量'
-                                    ),
-                                    PostbackTemplateAction(
-                                        label='高度活動量：站走為主、每周運動6-7天',
-                                        text='高度活動量',
-                                        data='K&高度活動量'
-                                    ),
-                                    PostbackTemplateAction(
-                                        label='非常高度活動量：無時無刻都在運動，幾乎整天都做高強度的運動',
-                                        text='非常高度活動量',
-                                        data='L&非常高度活動量'
-                                    )])))
-
-                elif ptext[0:1] == 'H':
-                    TDEE = 1.2 * BMR
-                    pmessage_ = '平日作息：{}，每日的 TDEE：{}'.format(ptext[2:], int(TDEE))
-                    pmessage.append(TextSendMessage(pmessage_))
-                elif ptext[0:1] == 'I':
-                    TDEE = 1.375 * BMR
-                    pmessage_ = '平日作息：{}，每日的 TDEE：{}'.format(ptext[2:], int(TDEE))
-                    pmessage.append(TextSendMessage(pmessage_))
-                elif ptext[0:1] == 'J':
-                    TDEE = 1.55 * BMR
-                    pmessage_ = '平日作息：{}，每日的 TDEE：{}'.format(ptext[2:], int(TDEE))
-                    pmessage.append(TextSendMessage(pmessage_))
-                elif ptext[0:1] == 'K':
-                    TDEE = 1.725 * BMR
-                    pmessage_ = '平日作息：{}，每日的 TDEE：{}'.format(ptext[2:], int(TDEE))
-                    pmessage.append(TextSendMessage(pmessage_))
-                elif ptext[0:1] == 'L':
-                    TDEE = 1.9 * BMR
-                    pmessage_ = '平日作息：{}，每日的 TDEE：{}'.format(ptext[2:], int(TDEE))
-                    pmessage.append(TextSendMessage(pmessage_))
-
-
-                line_bot_api.reply_message(event.reply_token, pmessage)
 
         return HttpResponse()
     else:
