@@ -367,6 +367,10 @@ def callback(request):
                                 # 這邊先用文字代替，之後可以改成圖片，圖片最下面顯示"想知道詳細資訊請點擊圖片"之類的文字
                                 text_ = "甚麼是 TDEE？\nTDEE 全名 Total Daily Energy Expenditure\n是總熱量消耗的英文縮寫，指身體一整天所消耗掉的熱量。\n\n當 攝取的卡路里 = TDEE時，體重會維持"
                                 message.append(TextSendMessage(text_))
+                        elif "運動gogo" in mtext:
+                            text_ = "請傳送位置訊息。\n將會為您找到最近的運動場所。"
+                            message.append(TextSendMessage(text_))
+
                     line_bot_api.reply_message(event.reply_token, message)
 
                 if event.message.type == 'location':
