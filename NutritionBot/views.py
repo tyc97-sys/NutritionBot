@@ -7,6 +7,8 @@ from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import *
 from .models import *
+from .map import *
+import folium
 # from .rich_menu import *
 import json
 
@@ -32,8 +34,6 @@ def callback(request):
         # rich_menu_id = create_menu()
         # set_menu_image(r"F:\AI\Line_Chatbot\NutritionBot\NutritionBot\rich-menu.png", rich_menu_id)
         # print(rich_menu_id)
-
-
 
         # 當有事件傳入
         for event in events:
@@ -369,6 +369,26 @@ def callback(request):
                                 message.append(TextSendMessage(text_))
                     line_bot_api.reply_message(event.reply_token, message)
 
+                if event.message.type == 'location':
+                    latitude = event.message.latitude
+                    longitude = event.message.longitude
+
+                    location = [event.message.latitude, event.message.longitude]
+
+                    path = r'F:\AI\Line_Chatbot\NutritionBot\fitness.geojson'
+
+                    find_nearest_centre(location=location, path=path)
+
+                    # fmap = folium.Map(location=[latitude, longitude], zoom_start=15)
+                    # folium.Marker(location=[latitude, longitude], popup='<b>你的位置</b>').add_to(fmap)
+                    #
+                    #
+                    # fmap.save(r"F:\AI\Line_Chatbot\NutritionBot\map.html")
+
+                    text_ = event.message.address
+                    message.append(TextSendMessage(text_))
+
+                    line_bot_api.reply_message(event.reply_token, message)
 
         return HttpResponse()
     else:
