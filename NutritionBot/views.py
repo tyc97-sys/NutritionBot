@@ -374,22 +374,14 @@ def callback(request):
                     line_bot_api.reply_message(event.reply_token, message)
 
                 if event.message.type == 'location':
-                    latitude = event.message.latitude
-                    longitude = event.message.longitude
+                    # latitude = event.message.latitude
+                    # longitude = event.message.longitude
 
                     location = [event.message.latitude, event.message.longitude]
 
                     path = r'F:\AI\Line_Chatbot\NutritionBot\fitness.geojson'
 
-                    find_nearest_centre(location=location, path=path)
-
-                    # fmap = folium.Map(location=[latitude, longitude], zoom_start=15)
-                    # folium.Marker(location=[latitude, longitude], popup='<b>你的位置</b>').add_to(fmap)
-                    #
-                    #
-                    # fmap.save(r"F:\AI\Line_Chatbot\NutritionBot\map.html")
-
-                    text_ = event.message.address
+                    text_ = find_nearest_place(location=location, path=path)
                     message.append(TextSendMessage(text_))
 
                     line_bot_api.reply_message(event.reply_token, message)
