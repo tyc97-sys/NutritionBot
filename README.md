@@ -65,7 +65,7 @@ INSTALLED_APPS = [
 
 以上都設定完成後，開啟 NutritionBot/views.py，這邊就是轉寫 Line Bot 接收訊息後要執行的運算邏輯。
 
-先建立最基本的 echo ChatBot 當作示範（回傳傳送過去的訊息）
+先建立最基本的 echo ChatBot 當作示範（回傳傳送過去的訊息） **echo**
 ```python
 from django.shortcuts import render
 
@@ -82,7 +82,6 @@ from linebot.models import MessageEvent, TextSendMessage
 
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 parser = WebhookParser(settings.LINE_CHANNEL_SECRET)
-
 
 @csrf_exempt
 def callback(request):
@@ -136,6 +135,8 @@ urlpatterns = [
 為了要讓網址能夠 Public 且具有 https，Line Channel 才有辦法連結，使用一個強大的工具 Ngrok。
 
 簡單來說，就是能夠將你本機的IP埠號，對應到一個隨機產生的HTTPS網址，並且這個HTTPS網址是對外公開的(Public)的，這時候外部使用者只要透過這個HTTPS網址，就能夠存取本機所運行的服務。
+
+> 也就是 ngrok 是一個可以讓內網伺服器與外界溝通的一個服務。
 
 [Ngrok 官網](https://ngrok.com/)
 
