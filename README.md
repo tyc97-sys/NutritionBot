@@ -177,7 +177,24 @@ ALLOWED_HOSTS = [
 ]
 ```
 
-此時 Line Channel 就能夠與 Line Bot APP 互相連結
+### Line Developer Setting
+
+在執行前，我們要做最後一步的設定。
+
+在 Messaging API > LINE Official Account features > Auto-reply messages > Edit
+
+
+
+我們可以看到一些設定的部分。
+
++ **Main settings**
+    + Response mode：我們選擇 `Bot` 就可以讓我們撰寫的聊天機器人自動回復
+    + Greeting message：可以選擇加入好友後是否要先傳一個招呼訊息（也可以編輯）
++ **Detailed settings**
+    + Auto-response：要記得把 Auto-response 關掉
+    + Webhooks：這個選項要記得打開(Enabled)。
+    
+都設定完後，Line Channel 就能夠與 Line Bot APP 互相連結
 
 ## 執行
 
