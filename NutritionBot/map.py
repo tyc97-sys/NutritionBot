@@ -48,24 +48,41 @@ def find_nearest_place(location, path):
     min_distamce_km = min(distance) * (111)
     min_distamce_km_index = distance.index(min(distance))
 
-    fmap = folium.Map(location=location, zoom_start=15)
+    fmap = folium.Map(location=location, zoom_start=17)
 
     tooltip = '請點選我檢視該點資訊'
+
+
+
+    sending_text = '與目前所在地最近的運動場所：\n{}\n距離約 {:.3f} km\n地址：{}'.format(names[min_distamce_km_index], min_distamce_km, addrs[min_distamce_km_index])
+
+    if addrs[min_distamce_km_index] == 'NULL' and names[min_distamce_km_index] == 'NULL':
+        print(2)
+        sending_text = '與目前所在地最近的運動場所：\n{}\n距離約 {:.3f} km'.format(names[min_distamce_km_index], min_distamce_km)
+
+    elif addrs[min_distamce_km_index] == 'NULL':
+        print(1)
+        sending_text = '與目前所在地最近的運動場所：\n{}\n距離約 {:.3f} km'.format(names[min_distamce_km_index], min_distamce_km)
+
+    elif names[min_distamce_km_index] == 'NULL':
+        print(0)
+        sending_text = '與目前所在地最近的運動場所\n距離約 {:.3f} km\n地址：{}'.format(min_distamce_km, addrs[min_distamce_km_index])
 
     m1 = folium.Marker(location=location,
                        popup=folium.Popup('<b>目前所在地</b>', max_width=400),
                        tooltip = tooltip)
 
     m2 = folium.Marker(location=coordinates[min_distamce_km_index],
-                       popup=folium.Popup('與目前所在地最近的運動場所<br>{}<br>距離約 {:.3f} km<br>地址：{}'.format(names[min_distamce_km_index], min_distamce_km, addrs[min_distamce_km_index]), max_width=400),
+                       popup=folium.Popup(sending_text.replace('\n', '<br>'), max_width=400),
                        icon=folium.Icon(color='red'),
                        tooltip=tooltip)  # Marker顏色
 
-    sending_text = '與目前所在地最近的運動場所\n{}\n距離約 {:.3f} km\n地址：{}'.format(names[min_distamce_km_index], min_distamce_km, addrs[min_distamce_km_index])
+    print("sending_text", sending_text)
 
     fmap.add_child(child=m1)
     fmap.add_child(child=m2)
     fmap.save("taipei.html")
 
-    return sending_text
+
+    return sending_text, addrs[min_distamce_km_index], names[min_distamce_km_index]
 

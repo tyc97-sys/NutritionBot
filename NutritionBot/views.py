@@ -8,6 +8,7 @@ from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import *
 from .models import *
 from .map import *
+from .web_html import *
 import folium
 # from .rich_menu import *
 import json
@@ -210,7 +211,11 @@ def callback(request):
                             message.append(
                                 TemplateSendMessage(
                                     alt_text='Buttons template',
+                                    # imageUrl="",
+                                    # imageAspectRatio="square",
                                     template=ButtonsTemplate(
+                                        thumbnail_image_url = "https://imgur.com/stpxRps.jpg",
+                                        imageAspectRatio="square",
                                         title='活動程度',
                                         text='平常活動程度？',
                                         actions=[
@@ -381,8 +386,16 @@ def callback(request):
 
                     path = r'F:\AI\Line_Chatbot\NutritionBot\fitness.geojson'
 
-                    text_ = find_nearest_place(location=location, path=path)
+                    text_, addr_, name_ = find_nearest_place(location=location, path=path)
                     message.append(TextSendMessage(text_))
+
+                    print(addr_, name_)
+                    url_path = r'F:\AI\Line_Chatbot\NutritionBot\taipei.html'
+                    url = search_on_google(url_path)
+
+                    print(url)
+                    message.append(TextSendMessage(url))
+
 
                     line_bot_api.reply_message(event.reply_token, message)
 
