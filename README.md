@@ -183,7 +183,7 @@ ALLOWED_HOSTS = [
 
 在 Messaging API > LINE Official Account features > Auto-reply messages > Edit
 
-
+![image](https://user-images.githubusercontent.com/85750836/132296847-4b04036a-d2df-45cd-b20e-448e16bbebaf.png)
 
 我們可以看到一些設定的部分。
 
