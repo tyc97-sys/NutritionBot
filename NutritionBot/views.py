@@ -8,6 +8,7 @@ from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import *
 from .models import *
 from .map import *
+from .healthy_box import *
 from .web_html import *
 import folium
 # from .rich_menu import *
@@ -18,7 +19,8 @@ import json
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 parser = WebhookParser(settings.LINE_CHANNEL_SECRET)
 
-text_history = []
+text_history = ['歷史紀錄']
+text_history1 = ['歷史紀錄']
 
 @csrf_exempt
 def callback(request):
@@ -100,7 +102,7 @@ def callback(request):
                             if height == 0 or weight == 0 or age == 0:
                                 text_ = '你還沒輸入過基本資訊'
                                 message.append(TextSendMessage(text_))
-                                text_ = '"請先輸入你的身高(cm)／體重(kg)／年齡／性別 (用空格區別)'
+                                text_ = '請先輸入你的身高(cm)／體重(kg)／年齡／性別 (用空格區別)'
                                 message.append(TextSendMessage(text_))
                             else:
                                 if sex == 1:
@@ -170,16 +172,40 @@ def callback(request):
                             else:
                                 BMR = 9.6 * weight + 1.8 * height - 4.7 * age + 655  # 女生 = (9.6×體重(公斤))+(1.8×身高(公分))-(4.7×年齡)+655
 
-                            text_ = '您的基礎代謝（BMR）為：{} kcal'.format(int(BMR))
-                            message.append(TextSendMessage(text_))
-                            print("BMR", int(BMR))
-                            User_Info.objects.filter(uid=uid).update(bmr=BMR)
+                            # text_ = '您的基礎代謝（BMR）為：{} kcal'.format(int(BMR))
+                            # message.append(TextSendMessage(text_))
+                            # print("BMR", int(BMR))
+                            # User_Info.objects.filter(uid=uid).update(bmr=BMR)
+                            #
+                            # water = float(weight * 30 / 1000)
+                            # text_ = '每天需喝水：{:.1f}L'.format(water)
+                            # message.append(TextSendMessage(text_))
+                            # print("{:.1f}".format(water))
+                            # User_Info.objects.filter(uid=uid).update(water=water)
 
-                            water = float(weight * 30 / 1000)
-                            text_ = '每天需喝水：{:.1f}L'.format(water)
-                            message.append(TextSendMessage(text_))
-                            print("{:.1f}".format(water))
+                            text_ = '您的基礎代謝（BMR）為：{} kcal\n每天需喝水：{:.1f}L'.format(int(BMR), water)
+
+                            User_Info.objects.filter(uid=uid).update(bmr=BMR)
                             User_Info.objects.filter(uid=uid).update(water=water)
+
+                            message.append(
+                                TemplateSendMessage(
+                                    alt_text='Confirm template',
+                                    template=ConfirmTemplate(
+                                        text=text_,
+                                        actions=[
+                                            MessageTemplateAction(
+                                                label='OK 瞭解了',
+                                                text='OK',
+                                            ),
+                                            MessageTemplateAction(
+                                                label='甚麼是 BMR ?',
+                                                text='BMR?',
+                                            )])))
+
+                        elif 'BMR?' in mtext:
+                            text_ = 'BMR (Basal Metabolic Rate) 是基礎代謝率的英文縮寫，是指「人類一天不動也能消耗的熱量」! \n BMR 高的人在沒做甚麼事情時就消耗了許多熱量，代表著這種人在減肥來說更加容易；相反的BMR低的人就要更注意控制自己的飲食。'
+                            message.append(TextSendMessage(text_))
 
                         elif '營養素' in mtext:
                             message.append(
@@ -252,7 +278,7 @@ def callback(request):
                                     fat = TDEE * 0.2 / 9
 
                                     text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
-                                        text_history[0], int(TDEE), carb, protein, fat)
+                                        text_history.pop(), int(TDEE), carb, protein, fat)
 
                                 elif '保持身材' in text_history:
                                     TDEE = TDEE
@@ -261,7 +287,7 @@ def callback(request):
                                     fat = TDEE * 0.3 / 9
 
                                     text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
-                                        text_history[0], int(TDEE), carb, protein, fat)
+                                        text_history.pop(), int(TDEE), carb, protein, fat)
 
                                 elif '增肌 / 增重' in text_history:
                                     TDEE = TDEE + 400
@@ -270,7 +296,7 @@ def callback(request):
                                     fat = TDEE * 0.15 / 9
 
                                     text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
-                                        text_history[0], int(TDEE), carb, protein, fat)
+                                        text_history.pop(), int(TDEE), carb, protein, fat)
 
                                 message.append(TextSendMessage(text_))
                             elif '輕量活動' in mtext:
@@ -284,7 +310,7 @@ def callback(request):
                                     fat = TDEE * 0.2 / 9
 
                                     text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
-                                        text_history[0], int(TDEE), carb, protein, fat)
+                                        text_history.pop(), int(TDEE), carb, protein, fat)
 
                                 elif '保持身材' in text_history:
                                     TDEE = TDEE
@@ -293,7 +319,7 @@ def callback(request):
                                     fat = TDEE * 0.3 / 9
 
                                     text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
-                                        text_history[0], int(TDEE), carb, protein, fat)
+                                        text_history.pop(), int(TDEE), carb, protein, fat)
 
                                 elif '增肌 / 增重' in text_history:
                                     TDEE = TDEE + 400
@@ -302,7 +328,7 @@ def callback(request):
                                     fat = TDEE * 0.15 / 9
 
                                     text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
-                                        text_history[0], int(TDEE), carb, protein, fat)
+                                        text_history.pop(), int(TDEE), carb, protein, fat)
 
                                 message.append(TextSendMessage(text_))
                             elif '中度活動量' in mtext:
@@ -316,7 +342,7 @@ def callback(request):
                                     fat = TDEE * 0.2 / 9
 
                                     text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
-                                        text_history[0], int(TDEE), carb, protein, fat)
+                                        text_history.pop(), int(TDEE), carb, protein, fat)
 
                                 elif '保持身材' in text_history:
                                     TDEE = TDEE
@@ -325,7 +351,7 @@ def callback(request):
                                     fat = TDEE * 0.3 / 9
 
                                     text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
-                                        text_history[0], int(TDEE), carb, protein, fat)
+                                        text_history.pop(), int(TDEE), carb, protein, fat)
 
                                 elif '增肌 / 增重' in text_history:
                                     TDEE = TDEE + 400
@@ -334,7 +360,7 @@ def callback(request):
                                     fat = TDEE * 0.15 / 9
 
                                     text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
-                                        text_history[0], int(TDEE), carb, protein, fat)
+                                        text_history.pop(), int(TDEE), carb, protein, fat)
 
                                 message.append(TextSendMessage(text_))
                             elif '高度活動量' in mtext:
@@ -348,7 +374,7 @@ def callback(request):
                                     fat = TDEE * 0.2 / 9
 
                                     text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
-                                        text_history[0], int(TDEE), carb, protein, fat)
+                                        text_history.pop(), int(TDEE), carb, protein, fat)
 
                                 elif '保持身材' in text_history:
                                     TDEE = TDEE
@@ -357,7 +383,7 @@ def callback(request):
                                     fat = TDEE * 0.3 / 9
 
                                     text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
-                                        text_history[0], int(TDEE), carb, protein, fat)
+                                        text_history.pop(), int(TDEE), carb, protein, fat)
 
                                 elif '增肌 / 增重' in text_history:
                                     TDEE = TDEE + 400
@@ -366,36 +392,70 @@ def callback(request):
                                     fat = TDEE * 0.15 / 9
 
                                     text_ = '若你想{}，那麼為這個目標所訂的 TDEE：{} kcal\n\n建議的營養素：\n- 碳水化合物：{:.1f} g\n- 蛋白脂：{:.1f} g\n- 脂肪：{:.1f} g'.format(
-                                        text_history[0], int(TDEE), carb, protein, fat)
+                                        text_history.pop(), int(TDEE), carb, protein, fat)
 
                                 message.append(TextSendMessage(text_))
                                 # 這邊先用文字代替，之後可以改成圖片，圖片最下面顯示"想知道詳細資訊請點擊圖片"之類的文字
-                                text_ = "甚麼是 TDEE？\nTDEE 全名 Total Daily Energy Expenditure\n是總熱量消耗的英文縮寫，指身體一整天所消耗掉的熱量。\n\n當 攝取的卡路里 = TDEE時，體重會維持"
-                                message.append(TextSendMessage(text_))
-                        elif "運動gogo" in mtext:
-                            text_ = "請傳送位置訊息。\n將會為您找到最近的運動場所。"
+
+                            text_ = '想更瞭解 TDEE 嗎？'
+                            message.append(
+                                TemplateSendMessage(
+                                    alt_text='Confirm template',
+                                    template=ConfirmTemplate(
+                                        text=text_,
+                                        actions=[
+                                            MessageTemplateAction(
+                                                label='好挖',
+                                                text='好挖',
+                                            ),
+                                            MessageTemplateAction(
+                                                label='不用了',
+                                                text='不用了',
+                                            )])))
+                        elif '好挖' in mtext:
+                            text_ = "甚麼是 TDEE？\nTDEE 全名 Total Daily Energy Expenditure\n是總熱量消耗的英文縮寫，指身體一整天所消耗掉的熱量。\n\n當 攝取的卡路里 = TDEE時，體重會維持"
                             message.append(TextSendMessage(text_))
 
+                        elif "運動gogo" in mtext:
+                            text_history1.append("運動gogo")
+                            text_ = "請傳送位置訊息。\n將會為您找到最近的運動場所。"
+                            message.append(TextSendMessage(text_))
+                        elif "吃" in mtext:
+                            text_history1.append("吃")
+                            text_ = "請傳送位置訊息。\n將會為您找到最近的幾間健康餐盒專賣店。"
+                            message.append(TextSendMessage(text_))
+
+                    print(text_history1, text_history)
                     line_bot_api.reply_message(event.reply_token, message)
 
                 if event.message.type == 'location':
                     # latitude = event.message.latitude
                     # longitude = event.message.longitude
-
+                    # print(text_history1.pop())
                     location = [event.message.latitude, event.message.longitude]
 
-                    path = r'F:\AI\Line_Chatbot\NutritionBot\fitness.geojson'
+                    history = text_history1.pop()
 
-                    text_, addr_, name_ = find_nearest_place(location=location, path=path)
-                    message.append(TextSendMessage(text_))
+                    if "運動gogo" in history:
 
-                    print(addr_, name_)
-                    url_path = r'F:\AI\Line_Chatbot\NutritionBot\taipei.html'
-                    url = search_on_google(url_path)
+                        path = r'F:\AI\Line_Chatbot\NutritionBot\fitness.geojson'
 
-                    print(url)
-                    message.append(TextSendMessage(url))
+                        text_, addr_, name_, coor_ = find_nearest_place(location=location, path=path)
+                        message.append(TextSendMessage(text_))
 
+                        print(addr_, name_)
+
+                        message.append(LocationSendMessage(title=name_, address='Taipei', latitude=coor_[0], longitude=coor_[1]))
+
+                    elif "吃" in history:
+
+                        path = r'F:\AI\Line_Chatbot\NutritionBot\restaurant.geojson'
+
+                        sending_text1, sending_text2, sending_text3 = find_nearest_restaurant(location=location, path=path)
+
+                        message.append(TextSendMessage(sending_text1))
+                        message.append(TextSendMessage(sending_text2))
+                        message.append(TextSendMessage(sending_text3))
 
                     line_bot_api.reply_message(event.reply_token, message)
 

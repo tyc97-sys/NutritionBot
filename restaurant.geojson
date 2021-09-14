@@ -1,0 +1,24 @@
+{
+"type": "FeatureCollection",
+"name": "fitness",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "amenity": "restaurant", "phone": "+886-978705252", "name": "好餵健康餐盒", "addr:full": "台北市大安區復興南路二段340巷5號1樓" }, "geometry": { "type": "Point", "coordinates": [ 121.54296106123358, 25.023714891541108 ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant", "phone": "+886-2-25627852", "name": "GET POWER 給力盒子 低脂健康餐盒 一江店", "addr:full": "台北市中山區一江街10號之1號" }, "geometry": { "type": "Point", "coordinates": [ 121.53119643848518, 25.052316608686404 ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant", "phone": "+886-2-23778977", "name": "肌肉海灘 健康餐盒公司 信義店", "addr:full": "台北市信義區和平東路三段391巷8弄30號" }, "geometry": { "type": "Point", "coordinates": [ 121.55741217294502, 25.020675475949876 ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant", "phone": "+886-916817553", "name": "少點鹽健康餐盒專賣小巨蛋店", "addr:full": "台北市松山區敦化北路120巷7弄5號" }, "geometry": { "type": "Point", "coordinates": [ 121.54804292321194, 25.054215935197238 ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant", "phone": "+886-2-87912383", "name": "LIFE KITCHEN 生活倉廚｜內湖門市｜健康法式藜麥餐盒", "addr:full": "台北市內湖區新湖三路134號" }, "geometry": { "type": "Point", "coordinates": [ 121.5778149999297, 25.064786703338257 ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant", "phone": "+886-2-87862100", "name": "七分飽手作健康餐盒", "addr:full": "台北市信義區逸仙路42巷16號" }, "geometry": { "type": "Point", "coordinates": [ 121.562856372945 , 25.040447053969057 ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant", "phone": "+886-985387806", "name": "輕白色健康餐盒(八德店)", "addr:full": "台北市中山區八德路二段291號" }, "geometry": { "type": "Point", "coordinates": [121.54190535760144 , 25.04763237435034 ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant", "phone": "+886900609159", "name": "樂坡健康餐盒 - 台北公館店", "addr:full": "台北市大安區羅斯福路三段283巷10號" }, "geometry": { "type": "Point", "coordinates": [  121.5316354685267 , 25.01848449395931 ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant", "phone": "+886-2-25422179", "name": "健康水煮餐盒/會議便當/雞胸肉/好吃便當推薦/Dr.salt", "addr:full": "台北市中山區南京東路二段115巷3弄1號" }, "geometry": { "type": "Point", "coordinates": [ 121.53352235544885, 25.05426133927984  ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant", "phone": "+886-2-87516236", "name": "ZERO Diet 健康餐廚", "addr:full": "台北市內湖區港墘路159號1樓" }, "geometry": { "type": "Point", "coordinates": [121.57568754589005, 25.07783073939903   ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant", "phone": "+886-2-25810609", "name": "Peeta x TakeTake 健康外送餐 長安店", "addr:full": "台北市中山區長安東路二段35巷1號" }, "geometry": { "type": "Point", "coordinates": [121.53117516176748,  25.04943678408261 ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant", "phone": "+886-2-23582356", "name": "常常好食｜健康制作所 減醣健康餐盒", "addr:full": "台北市大安區信義路二段130號" }, "geometry": { "type": "Point", "coordinates": [121.52970004128592, 25.035563945646544 ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant", "phone": "+886-2-25455745", "name": "強尼兄弟Johnny Bro健康廚房 台北小巨蛋店", "addr:full": "台北市松山區南京東路四段133巷5弄16號" }, "geometry": { "type": "Point", "coordinates": [121.55527758712749, 25.056248087810626 ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant", "phone": "+886-976019967", "name": "Ｄ卡食驗室健康餐盒-信義店", "addr:full": "台北市信義區松山路531號" }, "geometry": { "type": "Point", "coordinates": [121.57810855138533, 25.041785107446547 ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant", "phone": "+886-2-27080170", "name": "KEEP FIT 健康料理", "addr:full": "台北市大安區瑞安街112號" }, "geometry": { "type": "Point", "coordinates": [121.54343295153508, 25.03338646502053 ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant", "phone": "+886-2-25791610", "name": "Waypoint Santé 鐵人伙房餐廳", "addr:full": "台北市松山區八德路三段8巷23號" }, "geometry": { "type": "Point", "coordinates": [121.54809782168562, 121.54809782168562 ] } },
+{ "type": "Feature", "properties": { "amenity": "restaurant", "phone": "+886-2-25775587", "name": "純淨食代Pure Era", "addr:full": "台北市松山區光復南路6巷31號" }, "geometry": { "type": "Point", "coordinates": [121.55753919788248, 25.050622817199212 ] } }
+]
+}

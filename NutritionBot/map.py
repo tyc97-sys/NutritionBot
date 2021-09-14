@@ -52,8 +52,6 @@ def find_nearest_place(location, path):
 
     tooltip = '請點選我檢視該點資訊'
 
-
-
     sending_text = '與目前所在地最近的運動場所：\n{}\n距離約 {:.3f} km\n地址：{}'.format(names[min_distamce_km_index], min_distamce_km, addrs[min_distamce_km_index])
 
     if addrs[min_distamce_km_index] == 'NULL' and names[min_distamce_km_index] == 'NULL':
@@ -84,5 +82,5 @@ def find_nearest_place(location, path):
     fmap.save("taipei.html")
 
 
-    return sending_text, addrs[min_distamce_km_index], names[min_distamce_km_index]
+    return sending_text, addrs[min_distamce_km_index], names[min_distamce_km_index], coordinates[min_distamce_km_index]
 
