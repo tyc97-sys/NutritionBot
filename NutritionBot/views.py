@@ -177,7 +177,7 @@ def callback(request):
                             # print("BMR", int(BMR))
                             # User_Info.objects.filter(uid=uid).update(bmr=BMR)
                             #
-                            # water = float(weight * 30 / 1000)
+                            water = float(weight * 30 / 1000)
                             # text_ = '每天需喝水：{:.1f}L'.format(water)
                             # message.append(TextSendMessage(text_))
                             # print("{:.1f}".format(water))
