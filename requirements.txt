@@ -1,0 +1,45 @@
+asgiref==3.4.1
+astroid==2.3.3
+beautifulsoup4 @ file:///tmp/build/80754af9/beautifulsoup4_1601924105527/work
+branca @ file:///home/conda/feedstock_root/build_artifacts/branca_1609346930842/work
+brotlipy==0.7.0
+certifi==2021.5.30
+cffi @ file:///D:/bld/cffi_1625835469330/work
+chardet @ file:///D:/bld/chardet_1610093614045/work
+charset-normalizer==2.0.4
+colorama==0.4.3
+cryptography @ file:///D:/bld/cryptography_1616851634866/work
+dj-database-url==0.5.0
+dj-static==0.0.6
+Django==3.2.6
+folium @ file:///home/conda/feedstock_root/build_artifacts/folium_1615570722684/work
+future==0.18.2
+gunicorn==20.1.0
+idna==3.2
+isort==4.3.21
+Jinja2 @ file:///home/conda/feedstock_root/build_artifacts/jinja2_1621419064915/work
+lazy-object-proxy==1.4.3
+line-bot-sdk==1.19.0
+MarkupSafe @ file:///D:/bld/markupsafe_1621455827344/work
+mccabe==0.6.1
+numpy @ file:///D:/bld/numpy_1626682185159/work
+olefile==0.46
+Pillow @ file:///C:/ci/pillow_1625663293114/work
+pycparser @ file:///home/conda/feedstock_root/build_artifacts/pycparser_1593275161868/work
+pylint==2.4.4
+pyOpenSSL @ file:///home/conda/feedstock_root/build_artifacts/pyopenssl_1608055815057/work
+PySocks @ file:///D:/bld/pysocks_1610291695773/work
+pytz==2021.1
+requests @ file:///home/conda/feedstock_root/build_artifacts/requests_1626393743643/work
+responses==0.13.4
+selenium @ file:///C:/ci/selenium_1614268400261/work
+six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
+soupsieve==2.2.1
+sqlparse==0.4.1
+static3==0.7.0
+typed-ast==1.4.1
+typing-extensions==3.10.0.0
+urllib3 @ file:///home/conda/feedstock_root/build_artifacts/urllib3_1624634538755/work
+win-inet-pton @ file:///D:/bld/win_inet_pton_1610147511403/work
+wincertstore==0.2
+wrapt==1.11.2
