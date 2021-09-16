@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-domain = 'nutrition-bot-line.herokuapp.com'
+# domain = 'nutrition-bot-line.herokuapp.com'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-!^w2tap9j_71v02@w7vmx@f5a$on*nc*2qw3-i4aqat7+gbne(
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    domain # 允許的網域名稱
+    'nutrition-bot-line.herokuapp.com' # 允許的網域名稱
     # '*'
 ]
 
