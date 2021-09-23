@@ -455,13 +455,13 @@ def callback(request):
 
                         path = r'F:\AI\Line_Chatbot\NutritionBot\restaurant.geojson'
 
-                        sending_text1, sending_text2, sending_text3 = find_nearest_restaurant(location=location, path=path)
+                        # sending_text1, sending_text2, sending_text3 = find_nearest_restaurant(location=location, path=path)
+                        #
+                        # message.append(TextSendMessage(sending_text1))
+                        # message.append(TextSendMessage(sending_text2))
+                        # message.append(TextSendMessage(sending_text3))
 
-                        message.append(TextSendMessage(sending_text1))
-                        message.append(TextSendMessage(sending_text2))
-                        message.append(TextSendMessage(sending_text3))
-
-                    line_bot_api.reply_message(event.reply_token, message)
+                    line_bot_api.reply_message(event.reply_token, find_nearest_restaurant(location=location, path=path))
 
         return HttpResponse()
     else:
