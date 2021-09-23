@@ -11,11 +11,11 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-# domain = 'nutrition-bot-line.herokuapp.com'
+domain = '377b-140-118-122-35.ngrok.io'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-!^w2tap9j_71v02@w7vmx@f5a$on*nc*2qw3-i4aqat7+gbne(
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'nutrition-bot-line.herokuapp.com' # 允許的網域名稱
+    domain # 允許的網域名稱
     # '*'
 ]
 

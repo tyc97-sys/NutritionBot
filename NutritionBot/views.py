@@ -190,8 +190,10 @@ def callback(request):
 
                             message.append(
                                 TemplateSendMessage(
-                                    alt_text='Confirm template',
-                                    template=ConfirmTemplate(
+                                    alt_text='Buttons template',
+                                    template=ButtonsTemplate(
+                                        thumbnail_image_url="https://i.imgur.com/0484Uz3.png",
+                                        imageAspectRatio="square",
                                         text=text_,
                                         actions=[
                                             MessageTemplateAction(
@@ -212,6 +214,8 @@ def callback(request):
                                 TemplateSendMessage(
                                     alt_text='Buttons template',
                                     template=ButtonsTemplate(
+                                        thumbnail_image_url="https://i.imgur.com/1Gao7ZM.png",
+                                        imageAspectRatio="square",
                                         title='終極目標',
                                         text='現在的目標是？',
                                         actions=[

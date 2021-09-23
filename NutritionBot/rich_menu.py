@@ -41,12 +41,12 @@ from linebot import (
 )
 # # =======================================================
 line_bot_api = LineBotApi(token)
-rich_menu_id = 'richmenu-7d6f52543dc9c099795f5e85d94e8b75'
+rich_menu_id = 'richmenu-5da46afbb97bea26bd8a998e58e60642'
 # # =======================================================
-path = r'F:\AI\Line_Chatbot\NutritionBot\NutritionBot\menu.jpg'
-
-with open(path, 'rb') as f:
-    line_bot_api.set_rich_menu_image(rich_menu_id, "image/png", f)
+# path = r'F:\AI\Line_Chatbot\NutritionBot\menu.jpg'
+#
+# with open(path, 'rb') as f:
+#     line_bot_api.set_rich_menu_image(rich_menu_id, "image/png", f)
 # # =======================================================
 req = requests.request('POST', 'https://api.line.me/v2/bot/user/all/richmenu/'+rich_menu_id,
                        headers=headers)
