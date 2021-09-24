@@ -95,16 +95,16 @@ def find_nearest_restaurant(location, path):
                         text = sending_text1,
                         actions=[
                             MessageTemplateAction(
-                                label='11',
-                                text='11',
+                                label='菜單',
+                                text= names[index_[0]] + '菜單',
                             ),
                             MessageTemplateAction(
-                                label='22',
-                                text='22',
+                                label='電話',
+                                text= names[index_[0]] + '電話',
                             ),
                             MessageTemplateAction(
-                                label='33',
-                                text='44',
+                                label='線上預約',
+                                text= names[index_[0]] + '線上預約',
                             ),
                         ]
                     ),
@@ -113,16 +113,16 @@ def find_nearest_restaurant(location, path):
                         text=sending_text2,
                         actions=[
                             MessageTemplateAction(
-                                label='11',
-                                text='11',
+                                label='菜單',
+                                text=names[index_[1]] + '菜單',
                             ),
                             MessageTemplateAction(
-                                label='22',
-                                text='22',
+                                label='電話',
+                                text=names[index_[1]] + '電話',
                             ),
                             MessageTemplateAction(
-                                label='33',
-                                text='44',
+                                label='線上預約',
+                                text=names[index_[1]] + '線上預約',
                             ),
                         ]
                     ),
@@ -131,16 +131,16 @@ def find_nearest_restaurant(location, path):
                         text=sending_text3,
                         actions=[
                             MessageTemplateAction(
-                                label='11',
-                                text='11',
+                                label='菜單',
+                                text=names[index_[2]] + '菜單',
                             ),
                             MessageTemplateAction(
-                                label='22',
-                                text='22',
+                                label='電話',
+                                text=names[index_[2]] + '電話',
                             ),
                             MessageTemplateAction(
-                                label='33',
-                                text='44',
+                                label='線上預約',
+                                text=names[index_[2]] + '線上預約',
                             ),
                         ]
                     )

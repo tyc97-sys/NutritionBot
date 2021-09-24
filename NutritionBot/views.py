@@ -429,10 +429,67 @@ def callback(request):
                             text_ = "請傳送位置訊息。\n將會為您找到最近的幾間健康餐盒專賣店。"
                             message.append(TextSendMessage(text_))
 
+                        elif "菜單" in mtext:
+                            if "樂坡" in mtext:
+                                message.append(
+                                    ImageSendMessage(
+                                        original_content_url='https://i.imgur.com/iDwPOHB.jpg',
+                                        preview_image_url='https://i.imgur.com/iDwPOHB.jpg'
+                                    )
+                                )
+                            elif "好餵" in mtext:
+                                message.append(
+                                    ImageSendMessage(
+                                        original_content_url='https://i.imgur.com/dWTdC4F.jpg',
+                                        preview_image_url='https://i.imgur.com/dWTdC4F.jpg'
+                                    )
+                                )
+                            elif "常常" in mtext:
+                                message.append(
+                                    ImageSendMessage(
+                                        original_content_url='https://imgur.com/JJexRti.jpg',
+                                        preview_image_url='https://imgur.com/JJexRti.jpg'
+                                    )
+                                )
+                            elif "海灘" in mtext:
+                                message.append(
+                                    ImageSendMessage(
+                                        original_content_url='https://imgur.com/JJexRti.jpg',
+                                        preview_image_url='https://imgur.com/JJexRti.jpg'
+                                    )
+                                )
+                        elif "電話" in mtext:
+                            if "樂坡" in mtext:
+                                message.append(
+                                    TextSendMessage(
+                                        text='+886-900609159'
+                                    )
+                                )
+                            elif "好餵" in mtext:
+                                message.append(
+                                    TextSendMessage(
+                                        text='+886-978705252'
+                                    )
+                                )
+                            elif "常常" in mtext:
+                                message.append(
+                                    TextSendMessage(
+                                        text='+886-2-23582356'
+                                    )
+                                )
+                            elif "海灘" in mtext:
+                                message.append(
+                                    TextSendMessage(
+                                        text='+886-2-23778977'
+                                    )
+                                )
+
+
+
                     print(text_history1, text_history)
                     line_bot_api.reply_message(event.reply_token, message)
 
-                if event.message.type == 'location':
+                elif event.message.type == 'location':
                     # latitude = event.message.latitude
                     # longitude = event.message.longitude
                     # print(text_history1.pop())
