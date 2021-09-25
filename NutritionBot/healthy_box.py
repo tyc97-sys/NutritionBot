@@ -93,6 +93,8 @@ def find_nearest_restaurant(location, path):
                     CarouselColumn(
                         title = names[index_[0]],
                         text = sending_text1,
+                        thumbnail_image_url="https://imgur.com/Aw6OUMi.jpg",
+                        imageAspectRatio="square",
                         actions=[
                             MessageTemplateAction(
                                 label='菜單',
@@ -111,6 +113,8 @@ def find_nearest_restaurant(location, path):
                     CarouselColumn(
                         title=names[index_[1]],
                         text=sending_text2,
+                        thumbnail_image_url="https://imgur.com/lpzg5IS.jpg",
+                        imageAspectRatio="square",
                         actions=[
                             MessageTemplateAction(
                                 label='菜單',
@@ -129,6 +133,8 @@ def find_nearest_restaurant(location, path):
                     CarouselColumn(
                         title=names[index_[2]],
                         text=sending_text3,
+                        thumbnail_image_url="https://i.imgur.com/FzOpHIW.png",
+                        imageAspectRatio="square",
                         actions=[
                             MessageTemplateAction(
                                 label='菜單',

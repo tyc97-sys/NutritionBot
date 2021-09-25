@@ -67,38 +67,7 @@ def callback(request):
                             BMR = user.bmr
                             water = user.water
 
-                        if 'hi' in mtext.lower() or '嗨' in mtext or 'hello' in mtext.lower():
-                            text_ = '{} 您好\n今天需要甚麼幫助？'.format(name)
-                            message.append(TextSendMessage(text_))
-                            message.append(
-                                TemplateSendMessage(
-                                    alt_text='Buttons template',
-                                    template=ButtonsTemplate(
-                                        title='Menu',
-                                        text='請選擇需要甚麼服務',
-                                        actions=[
-                                            PostbackTemplateAction(
-                                                label='輸入身體資訊',
-                                                text='身體資訊',
-                                                data='A&身高&體重&性別&年齡'
-                                            ),
-                                            PostbackTemplateAction(
-                                                label='計算營養素',
-                                                text='營養素',
-                                                data='B&營養素'
-                                            ),
-                                            PostbackTemplateAction(
-                                                label='想去運動',
-                                                text='運動 gogo',
-                                                data='C&運動'
-                                            ),
-                                            PostbackTemplateAction(
-                                                label='想吃飯',
-                                                text='吃吃吃',
-                                                data='D&訂餐'
-                                            )])))
-
-                        elif '身體資訊' in mtext:
+                        if '身體資訊' in mtext:
                             if height == 0 or weight == 0 or age == 0:
                                 text_ = '你還沒輸入過基本資訊'
                                 message.append(TextSendMessage(text_))
@@ -454,8 +423,8 @@ def callback(request):
                             elif "海灘" in mtext:
                                 message.append(
                                     ImageSendMessage(
-                                        original_content_url='https://imgur.com/JJexRti.jpg',
-                                        preview_image_url='https://imgur.com/JJexRti.jpg'
+                                        original_content_url='https://i.imgur.com/IXsVXgE.jpg',
+                                        preview_image_url='https://i.imgur.com/IXsVXgE.jpg'
                                     )
                                 )
                         elif "電話" in mtext:
