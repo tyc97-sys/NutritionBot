@@ -475,7 +475,7 @@ def callback(request):
 
                         print(addr_, name_)
 
-                        message.append(LocationSendMessage(title=name_, address='Taipei', latitude=coor_[0], longitude=coor_[1]))
+                        line_bot_api.reply_message(event.reply_token, LocationSendMessage(title=name_, address='Taipei', latitude=coor_[0], longitude=coor_[1]))
 
                     elif "吃" in history:
 
@@ -487,7 +487,7 @@ def callback(request):
                         # message.append(TextSendMessage(sending_text2))
                         # message.append(TextSendMessage(sending_text3))
 
-                    line_bot_api.reply_message(event.reply_token, find_nearest_restaurant(location=location, path=path))
+                        line_bot_api.reply_message(event.reply_token, find_nearest_restaurant(location=location, path=path))
 
         return HttpResponse()
     else:
